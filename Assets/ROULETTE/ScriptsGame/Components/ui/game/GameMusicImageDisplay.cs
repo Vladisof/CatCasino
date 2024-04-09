@@ -11,15 +11,20 @@ namespace Components
         public GameSound gameSound;
         public Image imageDisplay;
         public Sprite[] imageOnOff;
+        public GameObject gameSound1;
         
         void Start()
         {
             gameSound.isMusicOn
                 .Subscribe(OnMusic)
                 .AddTo(this);
-            gameSound.isMusicOn
-                .Subscribe(OnSound)
-                .AddTo(this);
+            if (gameSound1 != null)
+            {
+                gameSound.isMusicOn
+                    .Subscribe(OnSound)
+                    .AddTo(this);
+            }
+
         }
 
         private void OnSound(bool isOn)
