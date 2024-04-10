@@ -1,19 +1,18 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Commands;
+using Scripts.ROULETTE.ScriptsGame.Commands;
+using Scripts.ROULETTE.ScriptsGame.ViewModel.reward;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using ViewModel;
+using UnityEngine.Serialization;
 
-namespace Components
+namespace Scripts.ROULETTE.ScriptsGame.Components.fortune
 {
     public class FortunePlayInput : MonoBehaviour
     {
-        public RewardFortune rewardFortune;
-        public GameCmdFactory gameCmdFactory;
+        [FormerlySerializedAs("rewardFortune")]
+        public RewardFort rewardFort;
+        [FormerlySerializedAs("gameCmdFactory")]
+        public GameFactory gameFactory;
 
         void Start()
         {
@@ -23,7 +22,7 @@ namespace Components
         public async void OnClick()
         {
             await Task.Delay(TimeSpan.FromSeconds(3));
-            gameCmdFactory.FortuneRewardTurn(rewardFortune).Execute();
+            GameFactory.FortuneRewardTurn(rewardFort).Execute();
         }
     }
 }

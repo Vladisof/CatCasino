@@ -1,24 +1,17 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Commands;
-using UnityEngine;
-using ViewModel;
-using UniRx;
-using Managers;
 using System.Threading.Tasks;
+using Scripts.ROULETTE.ScriptsGame.ViewModel.reward;
+using UnityEngine;
+using UnityEngine.Serialization;
 
-namespace Components
+namespace Scripts.ROULETTE.ScriptsGame.Components.player.controllers
 {
     public class RewardController : MonoBehaviour
     {
-        // Player Reward System
-        // Control the states of reward fortune
-        public RewardFortune rewardFortuneData;
+        [FormerlySerializedAs("rewardFortuneData")]
+        public RewardFort rewardFortData;
 
-        private float secondsToWait;
+        private float _secondsToWait;
         private IRewardTimer _rewardTimer;
 
         void Awake()
@@ -35,25 +28,25 @@ namespace Components
         {
             await Task.Delay(TimeSpan.FromSeconds(2));
 
-            secondsToWait = PlayerPrefs.GetFloat("SecondsToWaitReward");
+            _secondsToWait = PlayerPrefs.GetFloat("SecondsToWaitReward");
             var lastChestOpen = ulong.Parse(PlayerPrefs.GetString("LastRewardOpen"));
 
-            rewardFortuneData.isPlay = false;
+            rewardFortData.isPlay = false;
 
-            _rewardTimer.IsRewardReady(rewardFortuneData, secondsToWait);
+            _rewardTimer.IsRewardReady(rewardFortData, _secondsToWait);
         }
 
         void Update()
         {
-            _rewardTimer.IsRewardReady(rewardFortuneData, secondsToWait);
+            _rewardTimer.IsRewardReady(rewardFortData, _secondsToWait);
 
-            if (!rewardFortuneData.isRewardPossible.Value)
+            if (!rewardFortData.isRewardPossible.Value)
             {
-                if (_rewardTimer.IsRewardReady(rewardFortuneData, secondsToWait))
+                if (_rewardTimer.IsRewardReady(rewardFortData, _secondsToWait))
                 {
                     return;
                 }
-                rewardFortuneData.rewardTimer.Value = _rewardTimer.CalculateTimer(secondsToWait);
+                rewardFortData.rewardTimer.Value = _rewardTimer.CalculateTimer(_secondsToWait);
             }
         }
     }

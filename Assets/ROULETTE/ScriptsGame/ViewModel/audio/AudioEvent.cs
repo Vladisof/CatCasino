@@ -1,10 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UniRx;
-using Components;
 
-namespace ViewModel
+namespace Scripts.ROULETTE.ScriptsGame.ViewModel.audio
 {
     public abstract class AudioEvent : ScriptableObject
     {

@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using Components;
 using NUnit.Framework;
+using Scripts.ROULETTE.ScriptsGame.Components.hud;
+using Scripts.ROULETTE.ScriptsGame.ViewModel.player;
 using TMPro;
 using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
-using ViewModel;
 
 namespace Editor.Tests.Components.hud
 {

@@ -1,12 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using ViewModel;
+using Scripts.ROULETTE.ScriptsGame.ViewModel.player;
 using UniRx;
-using Commands;
-using System;
+using UnityEngine;
 
-namespace Components
+namespace Scripts.ROULETTE.ScriptsGame.Components.camera
 {
     public class CameraPlayDisplay : MonoBehaviour
     {

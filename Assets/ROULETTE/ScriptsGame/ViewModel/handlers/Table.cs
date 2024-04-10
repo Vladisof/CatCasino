@@ -1,13 +1,11 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-namespace ViewModel
+namespace Scripts.ROULETTE.ScriptsGame.ViewModel.handlers
 {
     [Serializable]
     public class Table
     {
-        public List<TableChips> TableChips = new List<TableChips>();
+        public List<TableChp> TableChips = new List<TableChp>();
     }
 }

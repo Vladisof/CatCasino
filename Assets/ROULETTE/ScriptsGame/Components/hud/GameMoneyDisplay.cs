@@ -1,14 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.UI;
-using UnityEngine;
-using UniRx;
-using ViewModel;
-using System;
-using Controllers;
+﻿using Scripts.ROULETTE.ScriptsGame.ViewModel.player;
 using TMPro;
+using UniRx;
+using UnityEngine;
 
-namespace Components
+namespace Scripts.ROULETTE.ScriptsGame.Components.hud
 {
     public class GameMoneyDisplay : MonoBehaviour
     {

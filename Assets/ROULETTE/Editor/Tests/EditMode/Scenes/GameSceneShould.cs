@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using Components;
 using NUnit.Framework;
+using Scripts.ROULETTE.ScriptsGame.Components.hud;
+using Scripts.ROULETTE.ScriptsGame.Components.reward;
+using Scripts.ROULETTE.ScriptsGame.Components.ui.winlost;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -30,15 +32,15 @@ namespace Editor.Tests.Scenes
         [Test]
         public void contain_win_lost_display()
         {
-            var component = GameObject.FindObjectOfType<WinLostDisplay>();
+            var component = GameObject.FindObjectOfType<WinLostDis>();
             Assert.NotNull(component);
         }
 
         [Test]
         public void contain_game_reward_display()
         {
-            var component_reward = GameObject.FindObjectOfType<GameRewardInput>();
-            var component = GameObject.FindObjectOfType<GameRewardDisplay>();
+            var component_reward = GameObject.FindObjectOfType<GameRewardIn>();
+            var component = GameObject.FindObjectOfType<GameRewardDis>();
             Assert.NotNull(component_reward);
             Assert.NotNull(component);
         }

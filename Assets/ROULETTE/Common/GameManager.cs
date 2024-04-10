@@ -3,14 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.NetworkInformation;
-using Components;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
-using Controllers;
 using System.Linq;
 using System.Threading.Tasks;
-using ViewModel;
+using Scripts.ROULETTE.ScriptsGame.Components.player;
+using Scripts.ROULETTE.ScriptsGame.ViewModel.player;
+using Scripts.ROULETTE.ScriptsGame.ViewModel.table;
 
 namespace Managers
 {
@@ -181,7 +181,7 @@ namespace Managers
             await Task.Delay(TimeSpan.FromSeconds(2));
 
             characterTable.currentTableActive.Value = true; 
-            characterTable.currentChipSelected = characterTable.chipData.Where(chip => chip.chipkey == KeyFicha.Chip10).First();
+            characterTable.currentChipSelected = characterTable.chipData.Where(chip => chip.chipKay == KeyFiche.Chip10).First();
 
             await Task.Yield();
         }

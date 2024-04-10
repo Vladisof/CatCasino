@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UniRx;
-using Components;
+using UnityEngine;
 
-namespace ViewModel
+namespace Scripts.ROULETTE.ScriptsGame.ViewModel.audio
 {
     [CreateAssetMenu(fileName = "New Game Sound", menuName = "Scriptable/Game Sound")]
     public class GameSound : ScriptableObject
@@ -12,7 +9,7 @@ namespace ViewModel
         public BoolReactiveProperty isFxOn;
         public BoolReactiveProperty isMusicOn;
         public SimpleAudio[] audioReferences;
-        public ISubject<SimpleAudio> OnSound = new Subject<SimpleAudio>();
-        public ISubject<SimpleAudio> OnMusic = new Subject<SimpleAudio>();
+        public readonly ISubject<SimpleAudio> OnSound = new Subject<SimpleAudio>();
+        public readonly ISubject<SimpleAudio> OnMusic = new Subject<SimpleAudio>();
     }
 }

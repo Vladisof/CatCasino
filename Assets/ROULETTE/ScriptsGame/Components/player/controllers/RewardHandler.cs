@@ -1,8 +1,8 @@
 using System;
+using Scripts.ROULETTE.ScriptsGame.ViewModel.reward;
 using UnityEngine;
-using ViewModel;
 
-namespace Components
+namespace Scripts.ROULETTE.ScriptsGame.Components.player.controllers
 {
     public class RewardHandler : MonoBehaviour, IRewardTimer
     {
@@ -10,7 +10,7 @@ namespace Components
         {
             return 0;
         }
-        public bool IsRewardReady(RewardFortune rewardFortune, float SecondsToWait)
+        public bool IsRewardReady(RewardFort rewardFort, float SecondsToWait)
         {
             var lastChestOpen = LastChestOpen();
 
@@ -21,30 +21,25 @@ namespace Components
 
             if (secondsLeft < 0)
             {
-                rewardFortune.rewardTimer.Value = rewardFortune.rewardLabel;
-                rewardFortune.isRewardPossible.Value = true;
+                rewardFort.rewardTimer.Value = rewardFort.rewardLabel;
+                rewardFort.isRewardPossible.Value = true;
                 return true;
-            }
-            else
+            } else
             {
-                rewardFortune.isRewardPossible.Value = false;
+                rewardFort.isRewardPossible.Value = false;
                 return false;
             }
         }
         public string CalculateTimer(float secondsToWait)
         {
-            // Set the timer
             ulong diff = ((ulong)DateTime.Now.Ticks - LastChestOpen());
             ulong m = diff / TimeSpan.TicksPerSecond;
             float secondsLeft = (float)(secondsToWait - m);
             string t = "";
-
-            // Hours
+            
             t += ((int)secondsLeft / 3600).ToString() + "h:";
             secondsLeft -= ((int)secondsLeft / 3600) * 3600;
-            // Minutes
             t += ((int)secondsLeft / 60).ToString("00") + "m:";
-            // Seconds
             t += (secondsLeft % 60).ToString("00") + "s";
 
             return t;

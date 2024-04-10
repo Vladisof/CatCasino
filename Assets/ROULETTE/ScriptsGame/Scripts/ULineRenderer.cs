@@ -1,0 +1,202 @@
+﻿using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
+
+namespace Scripts.ROULETTE.ScriptsGame.Scripts
+{
+  public class ULineRenderer : Graphic
+  {
+    [FormerlySerializedAs("m_Texture"),SerializeField]
+    Texture _mTexture;
+    [FormerlySerializedAs("m_UVRect"),SerializeField]
+    Rect _mUVRect = new Rect(0f, 0f, 1f, 1f);
+
+    public float LineThickness = 2;
+    public bool UseMargins;
+    public Vector2 Margin;
+    public Vector2 [] Points;
+    public bool relativeSize;
+
+    public override Texture mainTexture => _mTexture == null ? s_WhiteTexture : _mTexture;
+
+    public Texture texture
+    {
+      get
+      {
+        return _mTexture;
+      }
+      set
+      {
+        if (_mTexture == value)
+          return;
+
+        _mTexture = value;
+        SetVerticesDirty();
+        SetMaterialDirty();
+      }
+    }
+
+    public Rect uvRect
+    {
+      get
+      {
+        return _mUVRect;
+      }
+      set
+      {
+        if (_mUVRect == value)
+          return;
+
+        _mUVRect = value;
+        SetVerticesDirty();
+      }
+    }
+
+    protected override void OnFillVBO (List<UIVertex> vbo)
+    {
+      if (Points == null || Points.Length < 2)
+        Points = new []
+        {
+          new Vector2(0, 0),
+          new Vector2(1, 1)
+        };
+
+      var capSize = 24;
+      var sizeX = rectTransform.rect.width;
+      var sizeY = rectTransform.rect.height;
+      var offsetX = -rectTransform.pivot.x * rectTransform.rect.width;
+      var offsetY = -rectTransform.pivot.y * rectTransform.rect.height;
+
+      if (!relativeSize)
+      {
+        sizeX = 1;
+        sizeY = 1;
+      }
+
+      var pointList = new List<Vector2>();
+      pointList.Add(Points[0]);
+      var capPoint = Points[0] + (Points[1] - Points[0]).normalized * capSize;
+      pointList.Add(capPoint);
+      
+      for (int i = 1; i < Points.Length - 1; i++)
+      {
+        pointList.Add(Points[i]);
+      }
+
+      capPoint = Points[^1] - (Points[^1] - Points[^2]).normalized * capSize;
+      pointList.Add(capPoint);
+      pointList.Add(Points[^1]);
+
+      var TempPoints = pointList.ToArray();
+
+      if (UseMargins)
+      {
+        sizeX -= Margin.x;
+        sizeY -= Margin.y;
+        offsetX += Margin.x / 2f;
+        offsetY += Margin.y / 2f;
+      }
+
+      vbo.Clear();
+
+      Vector2 prevV1 = Vector2.zero;
+      Vector2 prevV2 = Vector2.zero;
+
+      for (int i = 1; i < TempPoints.Length; i++)
+      {
+        var prev = TempPoints[i - 1];
+        var cur = TempPoints[i];
+        prev = new Vector2(prev.x * sizeX + offsetX, prev.y * sizeY + offsetY);
+        cur = new Vector2(cur.x * sizeX + offsetX, cur.y * sizeY + offsetY);
+
+        float angle = Mathf.Atan2(cur.y - prev.y, cur.x - prev.x) * 180f / Mathf.PI;
+
+        var v1 = prev + new Vector2(0, -LineThickness / 2);
+        var v2 = prev + new Vector2(0, +LineThickness / 2);
+        var v3 = cur + new Vector2(0, +LineThickness / 2);
+        var v4 = cur + new Vector2(0, -LineThickness / 2);
+
+        v1 = RotatePointAroundPivot(v1, prev, new Vector3(0, 0, angle));
+        v2 = RotatePointAroundPivot(v2, prev, new Vector3(0, 0, angle));
+        v3 = RotatePointAroundPivot(v3, cur, new Vector3(0, 0, angle));
+        v4 = RotatePointAroundPivot(v4, cur, new Vector3(0, 0, angle));
+
+        Vector2 uvTopLeft = Vector2.zero;
+        Vector2 uvBottomLeft = new Vector2(0, 1);
+
+        Vector2 uvTopCenter = new Vector2(0.5f, 0);
+        Vector2 uvBottomCenter = new Vector2(0.5f, 1);
+
+        Vector2 uvTopRight = new Vector2(1, 0);
+        Vector2 uvBottomRight = new Vector2(1, 1);
+
+        Vector2 [] uvs = new []
+        {
+          uvTopCenter,
+          uvBottomCenter,
+          uvBottomCenter,
+          uvTopCenter
+        };
+
+        if (i > 1)
+          SetVbo(vbo, new []
+          {
+            prevV1,
+            prevV2,
+            v1,
+            v2
+          }, uvs);
+
+        if (i == 1)
+          uvs = new []
+          {
+            uvTopLeft,
+            uvBottomLeft,
+            uvBottomCenter,
+            uvTopCenter
+          };
+        else if (i == TempPoints.Length - 1)
+          uvs = new []
+          {
+            uvTopCenter,
+            uvBottomCenter,
+            uvBottomRight,
+            uvTopRight
+          };
+
+        SetVbo(vbo, new []
+        {
+          v1,
+          v2,
+          v3,
+          v4
+        }, uvs);
+
+
+        prevV1 = v3;
+        prevV2 = v4;
+      }
+    }
+
+    private void SetVbo (List<UIVertex> vbo, Vector2 [] vertices, Vector2 [] uvs)
+    {
+      for (int i = 0; i < vertices.Length; i++)
+      {
+        var vert = UIVertex.simpleVert;
+        vert.color = color;
+        vert.position = vertices[i];
+        vert.uv0 = uvs[i];
+        vbo.Add(vert);
+      }
+    }
+
+    private Vector3 RotatePointAroundPivot (Vector3 point, Vector3 pivot, Vector3 angles)
+    {
+      Vector3 dir = point - pivot; 
+      dir = Quaternion.Euler(angles) * dir; 
+      point = dir + pivot;      
+      return point;                    
+    }
+  }
+}

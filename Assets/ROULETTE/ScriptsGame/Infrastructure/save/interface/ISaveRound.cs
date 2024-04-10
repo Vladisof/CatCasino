@@ -1,15 +1,15 @@
 using System;
 using System.Collections;
+using Scripts.ROULETTE.ScriptsGame.ViewModel.handlers;
 using UniRx;
 using UnityEngine;
-using ViewModel;
 
 namespace Infrastructure
 {
     public interface ISaveRound 
     {
-        IObservable<Unit> RoundSequentialSave(Round roundData);
+        IObservable<Unit> RoundSequentialSave(Rnd rndData);
         IObservable<Unit> RoundSequentialLoad();
-        public Round roundData {get; set;}    
+        public Rnd RndData {get; set;}    
     }
 }

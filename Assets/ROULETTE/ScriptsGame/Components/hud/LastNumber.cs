@@ -1,11 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Commands;
-using UnityEngine;
-using UnityEngine.UIElements;
-using System;
+﻿using UnityEngine;
 
-namespace Components
+namespace Scripts.ROULETTE.ScriptsGame.Components.hud
 {
     public class LastNumber : MonoBehaviour
     {

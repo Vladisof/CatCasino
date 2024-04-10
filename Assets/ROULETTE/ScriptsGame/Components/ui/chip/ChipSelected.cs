@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+using Scripts.ROULETTE.ScriptsGame.ViewModel.table;
 using UnityEngine;
-using ViewModel;
-using UniRx;
 
-namespace Components
+namespace Scripts.ROULETTE.ScriptsGame.Components.ui.chip
 {
     public class ChipSelected : MonoBehaviour
     {

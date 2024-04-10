@@ -1,17 +1,18 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using ViewModel;
+using Scripts.ROULETTE.ScriptsGame.Commands;
+using Scripts.ROULETTE.ScriptsGame.ViewModel.reward;
 using UniRx;
-using Commands;
+using UnityEngine;
+using UnityEngine.Serialization;
 
-namespace Components
+namespace Scripts.ROULETTE.ScriptsGame.Components.fortune
 {
     public class FortuneRewardDisplay : MonoBehaviour
     {
-        public RewardFortune rewardFortune;
-        public GameCmdFactory gameCmdFactory;
+        [FormerlySerializedAs("rewardFortune")]
+        public RewardFort rewardFort;
+        [FormerlySerializedAs("gameCmdFactory")]
+        public GameFactory gameFactory;
         
         private int _randValue;
         private float _timeInterval;
@@ -20,12 +21,12 @@ namespace Components
 
         private void Start()
         {
-            rewardFortune.isPayment = false;
-            rewardFortune.isPlay = false;
+            rewardFort.isPayment = false;
+            rewardFort.isPlay = false;
 
-            _totalAngle = 360 / rewardFortune.sectionCount;
+            _totalAngle = 360 / rewardFort.sectionCount;
 
-            rewardFortune.OnFortune
+            rewardFort.OnFortune
                 .Subscribe(OnFortune)
                 .AddTo(this);
         }
@@ -35,11 +36,11 @@ namespace Components
             if(isFortune)
                 StartCoroutine(Spin());
         }
-        
-        IEnumerator Spin()
+
+        private IEnumerator Spin()
         {
-            rewardFortune.isPlay = true;
-            rewardFortune.isPayment = true;
+            rewardFort.isPlay = true;
+            rewardFort.isPayment = true;
 
             _randValue = Random.Range(100, 200);
             _timeInterval = 0.0001f * Time.deltaTime * 2;
@@ -63,7 +64,7 @@ namespace Components
                 transform.Rotate(0, 0, 22.5f);
             }
             
-            rewardFortune.isPlay = false;
+            rewardFort.isPlay = false;
         }
     }
 }

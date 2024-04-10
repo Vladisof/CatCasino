@@ -1,10 +1,10 @@
 using System;
 using System.IO;
-using UnityEngine;
-using ViewModel;
 using System.Threading.Tasks;
+using Scripts.ROULETTE.ScriptsGame.ViewModel.player;
+using UnityEngine;
 
-namespace Components
+namespace Scripts.ROULETTE.ScriptsGame.Components.player
 {
     public static class Player
     {

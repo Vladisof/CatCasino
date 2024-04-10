@@ -1,9 +1,9 @@
-using ViewModel;
+using Scripts.ROULETTE.ScriptsGame.ViewModel.table;
 
-namespace Commands
+namespace Scripts.ROULETTE.ScriptsGame.Components.buttons
 {
-    public interface IReseteableButton
+    public interface IResetTableButton
     {
-        void ResetButton(ButtonTable buttonData);
+        void ResetButton(ButtonTbl buttonData);
     }
 }

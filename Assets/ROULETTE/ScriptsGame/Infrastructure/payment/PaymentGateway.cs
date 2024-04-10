@@ -1,19 +1,15 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
-using ViewModel;
-using UniRx;
-using Components;
 using System.Linq;
-using System;
+using Scripts.ROULETTE.ScriptsGame.Components.chip;
+using Scripts.ROULETTE.ScriptsGame.ViewModel.player;
+using UniRx;
+using UnityEngine;
 
-namespace Infrastructure
+namespace Scripts.ROULETTE.ScriptsGame.Infrastructure.payment
 {
-    public class PaymnentGateway : IPayment
+    public class PaymentGateway : IPayment
     {
-        // Payment Controller System
-        // He actived when the roullete is finished and finded the number winner
-        // Calculate the bet with the number winner and the equation of payment
         private int _payment;
         private int _number;
         
@@ -39,9 +35,7 @@ namespace Infrastructure
             _payment = paymentWin - (paymentLost);
             _payment = _payment + paymentChipsReturn;
 
-            return Observable.Return(Unit.Default)
-                .Do(_ => Debug.Log($"Win: {paymentWin}, Lost: {paymentLost}, Chips: {paymentChipsReturn}"))
-                .Do(_ => Debug.Log($"The roullete pay: {_payment}"));
+            return Observable.Return(Unit.Default);
         }
     }
 
@@ -52,8 +46,8 @@ namespace Infrastructure
         {
             int earnedPayment = 0;
 
-            IEnumerable<ChipGame> plenos =  chips.Where(chip => chip._chipRuntime.currentButton.isPleno);
-            IEnumerable<ChipGame> middles =  chips.Where(chip => !chip._chipRuntime.currentButton.isPleno);
+            IEnumerable<ChipGame> plenos =  chips.Where(chip => chip.chipRuntime.CurrentButton.isPlano);
+            IEnumerable<ChipGame> middles =  chips.Where(chip => !chip.chipRuntime.CurrentButton.isPlano);
 
             int paymentPleno = GetPaymentChips(plenos.ToArray());
             int paymentMiddle = GetPaymentChips(middles.ToArray());
@@ -69,7 +63,7 @@ namespace Infrastructure
 
             foreach(ChipGame chip in chips)
             {
-                int value = chip._chipRuntime.currentChipData.chipValue;
+                int value = chip.chipRuntime.CurrentChipData.chipValue;
                 total = total + value;
             }
 
@@ -82,7 +76,7 @@ namespace Infrastructure
             int total = 0;
             foreach (ChipGame chip in chips)
             {
-                int value = EquationRoullete.EquationPayment(chip._chipRuntime.currentButton.buttonValue.Count(), chip._chipRuntime.currentChipData.chipValue);
+                int value = EquationRoullete.EquationPayment(chip.chipRuntime.CurrentButton.buttonValue.Count(), chip.chipRuntime.CurrentChipData.chipValue);
                 total = total + value;
             }
             return total;

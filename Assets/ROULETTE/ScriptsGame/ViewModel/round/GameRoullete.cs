@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UniRx;
-using Components;
+using UnityEngine;
 
-namespace ViewModel
+namespace Scripts.ROULETTE.ScriptsGame.ViewModel.round
 {
     [CreateAssetMenu(fileName = "New Game Roullete", menuName = "Scriptable/Game Roullete")]
     public class GameRoullete : ScriptableObject

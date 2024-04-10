@@ -1,17 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Commands;
-using UnityEngine;
-using UnityEngine.UIElements;
-using ViewModel;
+﻿using Scripts.ROULETTE.Common.utils;
+using Scripts.ROULETTE.ScriptsGame.ViewModel.player;
+using Scripts.ROULETTE.ScriptsGame.ViewModel.round;
 using UniRx;
-using System;
+using UnityEngine;
+using UnityEngine.Serialization;
 
-namespace Components
+namespace Scripts.ROULETTE.ScriptsGame.Components.hud
 {
     public class LastTableNumberDisplay : MonoBehaviour
     {
         public CharacterTable characterTable;
+        [FormerlySerializedAs("gameRoulette")]
         public GameRoullete gameRoullete;
 
         public GameObject[] anchorNumbers;
@@ -83,6 +82,7 @@ namespace Components
             GameObject num = Instantiate(numberContainer.transform.GetChild(value).gameObject);
             num.transform.localPosition = FindNumberPosition(0);
             num.GetComponent<LeanTweenScale>()._scaleXYZ = NumberDisplayConfig._biggerScale;
+            Debug.Log("num.transform.parent: " + num.transform.parent);
             return num;
         }
 

@@ -1,29 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using ViewModel;
 using System.Linq;
-using UniRx;
-using Controllers;
+using Scripts.ROULETTE.Common.controllers;
+using Scripts.ROULETTE.ScriptsGame.ViewModel.player;
+using UnityEngine;
 
-namespace Components
+namespace Scripts.ROULETTE.ScriptsGame.Components.chip
 {
     public class ChipGame : MonoBehaviour
     {
         public Transform chipsContainer;
         public SpriteRenderer spriteRenderer;
         public CharacterTable characterTable;
-        public IChipRuntime _chipRuntime;
+        public IChipRuntime chipRuntime;
 
         void Awake()
         {
             chipsContainer = GameObject.Find("ChipsContainer").GetComponent<Transform>();
-            _chipRuntime = GetComponent<IChipRuntime>();
+            chipRuntime = GetComponent<IChipRuntime>();
         }
         
         public bool HasNumber(int num)
         {
-            return _chipRuntime.currentButton.buttonValue.Contains(num);
+            return chipRuntime.CurrentButton.buttonValue.Contains(num);
         }
 
         public void DestroyChip()
@@ -33,7 +30,7 @@ namespace Components
 
         void OnDestroy()
         {
-            if(_chipRuntime.currentChipData == null)
+            if(chipRuntime.CurrentChipData == null)
                 return;
 
             characterTable.OnDestroyChip

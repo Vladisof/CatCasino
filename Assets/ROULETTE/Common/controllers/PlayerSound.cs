@@ -1,12 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using ViewModel;
+﻿using Scripts.ROULETTE.ScriptsGame.ViewModel.audio;
 using UniRx;
-using System;
-using System.Threading.Tasks;
+using UnityEngine;
 
-namespace Controllers
+namespace Scripts.ROULETTE.Common.controllers
 {
     public class PlayerSound : Singlenton<PlayerSound>
     {
@@ -38,8 +34,7 @@ namespace Controllers
 
             OnGameOpened();
         }
-
-        // Sound events
+        
         private void OnMusicIs(bool value)
         {
             _audioSourceMusic.mute = !value;

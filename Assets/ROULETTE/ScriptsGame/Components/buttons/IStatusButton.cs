@@ -1,8 +1,8 @@
-namespace Commands
+namespace Scripts.ROULETTE.ScriptsGame.Components.buttons
 {
     public interface IStatusButton
     {
-        bool _hasFichasOnTop {get;}
-        bool _isActive {get;set;}
+        bool HasFitchOnTop {get;}
+        bool IsActive {get;set;}
     }
 }

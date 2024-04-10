@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UniRx;
-using Controllers;
+using UnityEngine;
 
-namespace ViewModel
+namespace Scripts.ROULETTE.ScriptsGame.ViewModel.player
 {
     [CreateAssetMenu(fileName = "New Character Money", menuName = "Scriptable/Character Money")]
     public class CharacterMoney : ScriptableObject
@@ -13,14 +10,13 @@ namespace ViewModel
         public IntReactiveProperty characterMoney = new IntReactiveProperty();
         public IntReactiveProperty currentPayment = new IntReactiveProperty();
 
-        // Operations in player money
-        void AddCash(int cashWinner)
+        private void AddCash(int cashWinner)
         {
             int aux = characterMoney.Value;
             characterMoney.Value += cashWinner;
         }
-        
-        void SubstractCash(int cashLost)
+
+        private void SubCash(int cashLost)
         {
             if(cashLost < 0) 
             {
@@ -35,28 +31,26 @@ namespace ViewModel
             }
         }
 
-        // Operations in player bet
-        void AddBet(int betSum)
+        private void AddBet(int betSum)
         {
             int aux = characterBet.Value - betSum;
             characterBet.Value  += betSum;
         }
-        void SubstractBet(int betRest)
+
+        private void SubstractBet(int betRest)
         {
             int aux = characterBet.Value ;
             characterBet.Value  -= betRest;
         }
-
-        // Public methods
-        public bool CheckBetValue(int valueFicha)
+        
+        public bool CheckBetValue(int valueFiche)
         {
-            // Check if the bet is possible
             bool aux = true;
-            if (valueFicha <= characterMoney.Value  && valueFicha != 0)
+            if (valueFiche <= characterMoney.Value  && valueFiche != 0)
             {
                 aux = true;
-                SubstractCash(valueFicha);
-                AddBet(valueFicha);
+                SubCash(valueFiche);
+                AddBet(valueFiche);
             }
             else
             {
@@ -64,22 +58,17 @@ namespace ViewModel
             }
             return aux;
         }
-        public void DeleteChip(int valueFicha)
+        public void DeleteChip(int valueFiche)
         {
-            // Delete ficha of the table
-            SubstractBet(valueFicha);
-            AddCash(valueFicha);
+
+            SubstractBet(valueFiche);
+            AddCash(valueFiche);
         }
         public void PaymentSystem(int payment)
         {      
             characterBet.Value = 0;
-
-            // If the player win when the round finish game will pay.
-            // If not win it will stay with the same money without the bet.
             if(payment > 0)
                 AddCash(payment);
-                
-            Debug.Log($"Character player money is now being refresh with payment {payment}!");
         }
     }
 }

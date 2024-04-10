@@ -1,10 +1,7 @@
 using System;
-using System.Collections;
 using UniRx;
-using UnityEngine;
-using ViewModel;
 
-namespace Infrastructure
+namespace Scripts.ROULETTE.ScriptsGame.Infrastructure.save.@interface
 {
     public interface IRound 
     {

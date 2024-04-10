@@ -1,20 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UniRx;
+using UnityEngine.Serialization;
 
-namespace ViewModel
+namespace Scripts.ROULETTE.ScriptsGame.ViewModel.table
 {
     [CreateAssetMenu(fileName = "new chip", menuName = "Scriptable/Chip")]
     public class Chip : ScriptableObject
     {
         public string chipName;
-        public KeyFicha chipkey;
+        [FormerlySerializedAs("chipkay"),FormerlySerializedAs("chipkey")]
+        public KeyFiche chipKay;
         public int chipValue;
         public Sprite chipSprite;
     }
 
-    public enum KeyFicha
+    public enum KeyFiche
     {
         Chip10,
         Chip20,

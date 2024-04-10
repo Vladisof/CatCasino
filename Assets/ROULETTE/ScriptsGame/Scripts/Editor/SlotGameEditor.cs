@@ -2,7 +2,7 @@
 using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
-using BE;
+using Cat;
 
 [CustomEditor(typeof(SlotGame))]
 public class SlotGameEditor : Editor {

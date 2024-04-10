@@ -1,24 +1,22 @@
 using System;
+using System.Collections;
+using System.IO;
+using Infrastructure;
+using Managers;
+using Scripts.ROULETTE.ScriptsGame.ViewModel.handlers;
 using UniRx;
 using UnityEngine;
-using UnityEditor;
-using ViewModel;
-using System.Collections;
-using Managers;
-using UnityEngine.Networking;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
 
-namespace Infrastructure
+namespace Scripts.ROULETTE.ScriptsGame.Infrastructure.save
 {
     public class SaveRoundGateway : ISaveRound
     {
-        private static protected readonly string FILE_NAME = "player";
-        public Round roundData {get; set;}
+        protected private static readonly string FILE_NAME = "player";
+        public Rnd RndData {get; set;}
 
-        public IObservable<Unit> RoundSequentialSave(Round roundData)
+        public IObservable<Unit> RoundSequentialSave(Rnd rndData)
         {
-            return Observable.FromCoroutine<Unit>(observer => SavePlayer(observer, roundData));
+            return Observable.FromCoroutine<Unit>(observer => SavePlayer(observer, rndData));
         }
 
         public IObservable<Unit> RoundSequentialLoad()
@@ -26,13 +24,13 @@ namespace Infrastructure
             return Observable.FromCoroutine<Unit>(observer => LoadPlayer(observer));
         }
 
-        IEnumerator SavePlayer(IObserver<Unit> observer, Round roundData)
+        IEnumerator SavePlayer(IObserver<Unit> observer, Rnd rndData)
         {
             string path = GameManager.Instance.UrlDataPath + FILE_NAME;
-            string json = JsonUtility.ToJson(roundData);
+            string json = JsonUtility.ToJson(rndData);
 
             File.WriteAllText(path, json);
-            Debug.Log($"Saved data JSON with the table {roundData.idPlayer} with {json}");
+            Debug.Log($"Saved data JSON with the table {rndData.idPlayer} with {json}");
 
             yield return new WaitUntil(() => File.Exists(path));
             
@@ -47,8 +45,8 @@ namespace Infrastructure
 
             yield return new WaitUntil(() => json != null);
             
-            roundData = JsonUtility.FromJson<Round>(json);
-            Debug.Log($"Loaded data JSON with the table {roundData.idPlayer} with {json}");
+            RndData = JsonUtility.FromJson<Rnd>(json);
+            Debug.Log($"Loaded data JSON with the table {RndData.idPlayer} with {json}");
 
             observer.OnNext(Unit.Default); // push Unit or all buffer result.
             observer.OnCompleted();

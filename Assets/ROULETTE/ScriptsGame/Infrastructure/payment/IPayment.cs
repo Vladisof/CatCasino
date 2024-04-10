@@ -1,13 +1,16 @@
 ﻿using System;
+using Scripts.ROULETTE.ScriptsGame.ViewModel.player;
 using UniRx;
-using ViewModel;
 
-public interface IPayment 
+namespace Scripts.ROULETTE.ScriptsGame.Infrastructure.payment
 {
-    public IObservable<Unit> PaymentSystem(CharacterTable characterTable);
-    public int PaymentValue
+    public interface IPayment 
     {
-        get;
-        set;
+        public IObservable<Unit> PaymentSystem(CharacterTable characterTable);
+        public int PaymentValue
+        {
+            get;
+            set;
+        }
     }
 }

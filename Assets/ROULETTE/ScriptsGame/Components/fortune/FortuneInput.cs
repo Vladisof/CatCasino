@@ -1,40 +1,42 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using Scripts.ROULETTE.ScriptsGame.Commands;
+using Scripts.ROULETTE.ScriptsGame.ViewModel.player;
+using Scripts.ROULETTE.ScriptsGame.ViewModel.reward;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using ViewModel;
-using UniRx;
-using Commands;
-using System;
+using UnityEngine.Serialization;
 
-namespace Components
+namespace Scripts.ROULETTE.ScriptsGame.Components.fortune
 {
     public class FortuneInput : MonoBehaviour
     {
-        public CharacterCmdFactory characterCmdFactory;
-        public RewardFortune rewardFortune;
-        public GameCmdFactory gameCmdFactory;
+        [FormerlySerializedAs("characterCmdFactory")]
+        public CharacterFactory characterFactory;
+        [FormerlySerializedAs("rewardFortune")]
+        public RewardFort rewardFort;
+        [FormerlySerializedAs("gameCmdFactory")]
+        public GameFactory gameFactory;
         public CharacterTable characterTable;
         public char separatorAnchor;
 
-        private bool isExecute = false;
-        Int32 count = 1;
-    
-        void OnTriggerStay(Collider collider)
+        private bool _isExecute = false;
+        private int _count = 1;
+
+        private void OnTriggerStay(Collider collider)
         {
-            if(!isExecute && !rewardFortune.isPlay && rewardFortune.isPayment)
+            if(!_isExecute && !rewardFort.isPlay && rewardFort.isPayment)
             {
                 if(collider.CompareTag("AnchorSelectUI"))
                 {
-                    isExecute = true;
+                    _isExecute = true;
                     int pos = Convert.ToInt32(collider.name.Split(separatorAnchor)[1]);
                     FortuneWin(pos);
                 }
             }
         }
-        void FortuneWin(int pos)
+
+        private void FortuneWin(int pos)
         {
-            gameCmdFactory.FortuneTurn(characterCmdFactory, characterTable, rewardFortune, pos).Execute();
+            GameFactory.FortuneTurn(characterFactory, characterTable, rewardFort, pos).Execute();
         }
     }
 }
